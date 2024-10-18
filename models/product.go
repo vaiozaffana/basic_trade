@@ -14,7 +14,6 @@ type Product struct {
 	Name      string    `gorm:"size:255;not null" json:"name"`
 	ImageURL  string    `gorm:"size:255;not null" json:"image_url"`
 	AdminID   uint      `json:"admin_id"`
-	Admin     Admin     `gorm:"foreignKey:AdminID" json:"-"`
 	CreatedAt time.Time `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt time.Time `gorm:"autoUpdateTime" json:"updated_at"`
 }
