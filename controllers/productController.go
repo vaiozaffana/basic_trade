@@ -32,7 +32,12 @@ func CreateProduct(c *gin.Context) {
 		return
 	}
 
-	product.Name = c.PostForm("name")
+	src, err := file.Open()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to open image"})
+		return
+	}
+	defer src.Close()
 
 	filePath := filepath.Join("temp", file.Filename)
 	if err := c.SaveUploadedFile(file, filePath); err != nil {
@@ -46,6 +51,8 @@ func CreateProduct(c *gin.Context) {
 		return
 	}
 
+	product.Name = c.PostForm("name")
+	product.ImageURL = c.PostForm("image_url")
 	product.ImageURL = imageURL
 	product.AdminID = adminID.(uint)
 
@@ -98,7 +105,7 @@ func UpdateProduct(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "Product updated"})
+	c.JSON(http.StatusOK, gin.H{"message": "Product updated successfully"})
 }
 
 func DeleteProduct(c *gin.Context) {
@@ -107,5 +114,5 @@ func DeleteProduct(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "Product deleted"})
+	c.JSON(http.StatusOK, gin.H{"message": "Product deleted successfully"})
 }

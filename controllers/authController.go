@@ -4,6 +4,7 @@ import (
 	"BasicTrade/database"
 	"BasicTrade/helpers"
 	"BasicTrade/models"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -27,7 +28,7 @@ func RegisterAdmin(c *gin.Context) {
 	admin.Password = hashedPasword
 
 	if err := database.DB.Create(&admin).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create admin"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("Failed to create admin: %v", err)})
 		return
 	}
 

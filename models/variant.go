@@ -1,4 +1,3 @@
-// models/variant.go
 package models
 
 import (
@@ -22,6 +21,8 @@ type Variant struct {
 
 func (variant *Variant) BeforeCreate(tx *gorm.DB) (err error) {
 	variant.UUID = uuid.New()
+	variant.CreatedAt = time.Now()
+	variant.UpdatedAt = time.Now()
 	return
 }
 

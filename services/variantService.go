@@ -5,6 +5,7 @@ import (
 	"BasicTrade/models"
 	"errors"
 	"strings"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -15,7 +16,6 @@ func CreateVariant(variant *models.Variant) error {
 		return err
 	}
 
-	// Create the variant in the database
 	if err := database.DB.Create(variant).Error; err != nil {
 		return err
 	}
@@ -53,6 +53,7 @@ func GetVariantByUUID(uuid string) (*models.Variant, error) {
 
 func UpdateVariant(uuid string, updatedVariant *models.Variant) error {
 	var variant models.Variant
+
 	if err := database.DB.Where("uuid = ?", uuid).First(&variant).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return errors.New("variant not found")
@@ -65,9 +66,20 @@ func UpdateVariant(uuid string, updatedVariant *models.Variant) error {
 	}
 
 	updatedVariant.ID = variant.ID
-	if err := database.DB.Save(updatedVariant).Error; err != nil {
+	updatedVariant.UUID = variant.UUID
+	updatedVariant.ProductID = variant.ProductID
+	updatedVariant.CreatedAt = variant.CreatedAt
+	updatedVariant.UpdatedAt = time.Now()
+
+	// Lakukan update hanya pada field yang diizinkan
+	if err := database.DB.Model(&variant).Updates(map[string]interface{}{
+		"variant_name": updatedVariant.VariantName,
+		"quantity":     updatedVariant.Quantity,
+		"updated_at":   updatedVariant.UpdatedAt,
+	}).Error; err != nil {
 		return err
 	}
+
 	return nil
 }
 

@@ -1,4 +1,3 @@
-// controllers/variant_controller.go
 package controllers
 
 import (
@@ -10,7 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Create Variant
 func CreateVariant(c *gin.Context) {
 	var variant models.Variant
 
@@ -67,7 +65,7 @@ func UpdateVariant(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": updatedVariant})
+	c.JSON(http.StatusOK, gin.H{"message": "Variant updated successfully"})
 }
 
 func DeleteVariant(c *gin.Context) {
@@ -78,5 +76,5 @@ func DeleteVariant(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": "Variant deleted"})
+	c.JSON(http.StatusOK, gin.H{"data": "Variant deleted successfully"})
 }
