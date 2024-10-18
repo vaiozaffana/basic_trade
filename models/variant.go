@@ -14,7 +14,6 @@ type Variant struct {
 	VariantName string    `gorm:"size:255;not null" json:"variant_name" validate:"required,min=2,max=100"`
 	Quantity    int       `gorm:"not null" json:"quantity" validate:"required,min=1"`
 	ProductID   uint      `gorm:"not null" json:"product_id"`
-	Product     Product   `gorm:"foreignKey:ProductID" json:"-"`
 	CreatedAt   time.Time `gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt   time.Time `gorm:"autoUpdateTime" json:"updated_at"`
 }
