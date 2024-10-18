@@ -9,7 +9,7 @@ import (
 )
 
 type Product struct {
-	ID        int       `gorm:"primaryKey"`
+	ID        uint      `gorm:"primaryKey"`
 	UUID      uuid.UUID `gorm:"type:char(36);not null;uniqueIndex" json:"uuid"`
 	Name      string    `gorm:"size:255;not null" json:"name"`
 	ImageURL  string    `gorm:"size:255;not null" json:"image_url"`
